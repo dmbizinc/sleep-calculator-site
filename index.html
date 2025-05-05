@@ -1,122 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sleep Calculator</title>
-  <meta name="description" content="Find the best time to sleep or wake up based on 90-minute sleep cycles.">
-  <script src="https://cdn.tailwindcss.com"></script>
+function calculateBedTimes() {
+  const input = document.getElementById("wakeTime").value;
+  if (!input) return;
 
-  <!-- Google AdSense placeholder -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
-     crossorigin="anonymous"></script>
-</head>
-<body class="bg-white text-gray-900 font-sans flex flex-col items-center px-4 py-10 min-h-screen">
+  const [h, m] = input.split(":").map(Number);
+  const wakeTime = new Date();
+  wakeTime.setHours(h, m, 0, 0);
 
-  <div class="max-w-xl w-full text-center">
-    <h1 class="text-3xl font-bold mb-2">Sleep Calculator</h1>
-    <p class="text-sm text-gray-600 mb-6">Calculate your ideal sleep or wake times based on natural sleep cycles.</p>
+  const results = [];
+  for (let i = 6; i >= 1; i--) {
+    const d = new Date(wakeTime.getTime() - i * 90 * 60000);
+    const diffMins = (wakeTime - d) / 60000;
+    results.push({ time: formatTime(d), diffMins, rank: i });
+  }
 
-    <!-- Tabs -->
-    <div class="flex justify-center space-x-4 mb-4">
-      <button id="wakeBtn" onclick="showTab('wake')" class="tab-button border px-4 py-2 rounded-md bg-blue-600 text-white">I want to wake up at</button>
-      <button id="sleepBtn" onclick="showTab('sleep')" class="tab-button border px-4 py-2 rounded-md">I want to fall asleep at</button>
-    </div>
+  // Find closest to 420 minutes (7 hours)
+  const recommended = results.reduce((prev, curr) => {
+    return Math.abs(curr.diffMins - 420) < Math.abs(prev.diffMins - 420) ? curr : prev;
+  });
 
-    <!-- Wake Tab -->
-    <div id="wakeTab" class="tab-content">
-      <input type="time" id="wakeTime" class="border w-full py-2 px-3 rounded mb-4" />
-      <button onclick="calculateBedTimes()" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Calculate</button>
-      <div id="bedResults" class="mt-4 text-left text-sm text-gray-700"></div>
-    </div>
+  document.getElementById("bedResults").innerHTML =
+    `<p>If you want to wake up at <strong>${formatTime(wakeTime)}</strong>, try falling asleep at one of these times:</p>
+     <ul class="list-disc ml-5 mt-2">
+      ${results.map(r => {
+        const isRecommended = r.time === recommended.time;
+        return `<li class="${isRecommended ? 'font-bold text-blue-600' : ''}">
+                  ${r.time}${isRecommended ? ' ⭐ Recommended' : ''}
+                </li>`;
+      }).join('')}
+    </ul>`;
+}
 
-    <!-- Sleep Tab -->
-    <div id="sleepTab" class="tab-content hidden">
-      <input type="time" id="bedTime" class="border w-full py-2 px-3 rounded mb-4" />
-      <button onclick="calculateWakeTimes()" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Calculate</button>
-      <div id="wakeResults" class="mt-4 text-left text-sm text-gray-700"></div>
-    </div>
+function calculateWakeTimes() {
+  const input = document.getElementById("bedTime").value;
+  if (!input) return;
 
-    <!-- Ad placeholder -->
-    <div class="mt-10">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-           data-ad-slot="1234567890"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
+  const [h, m] = input.split(":").map(Number);
+  const bedTime = new Date();
+  bedTime.setHours(h, m, 0, 0);
 
-  <footer class="mt-16 text-xs text-gray-500 text-center">
-    &copy; <span id="year"></span> Sleep Calculator. All rights reserved.
-  </footer>
+  const results = [];
+  for (let i = 1; i <= 6; i++) {
+    const d = new Date(bedTime.getTime() + i * 90 * 60000);
+    const diffMins = (d - bedTime) / 60000;
+    results.push({ time: formatTime(d), diffMins, rank: i });
+  }
 
-  <script>
-    // Tab Switching
-    function showTab(tab) {
-      document.getElementById("wakeTab").classList.add("hidden");
-      document.getElementById("sleepTab").classList.add("hidden");
-      document.getElementById("wakeBtn").classList.remove("bg-blue-600", "text-white");
-      document.getElementById("sleepBtn").classList.remove("bg-blue-600", "text-white");
+  // Find closest to 420 minutes (7 hours)
+  const recommended = results.reduce((prev, curr) => {
+    return Math.abs(curr.diffMins - 420) < Math.abs(prev.diffMins - 420) ? curr : prev;
+  });
 
-      if (tab === "wake") {
-        document.getElementById("wakeTab").classList.remove("hidden");
-        document.getElementById("wakeBtn").classList.add("bg-blue-600", "text-white");
-      } else {
-        document.getElementById("sleepTab").classList.remove("hidden");
-        document.getElementById("sleepBtn").classList.add("bg-blue-600", "text-white");
-      }
-    }
-
-    // Time Formatter
-    function formatTime(date) {
-      let h = date.getHours();
-      let m = date.getMinutes();
-      const ampm = h >= 12 ? 'PM' : 'AM';
-      h = h % 12 || 12;
-      m = m < 10 ? '0' + m : m;
-      return `${h}:${m} ${ampm}`;
-    }
-
-    function calculateBedTimes() {
-      const input = document.getElementById("wakeTime").value;
-      if (!input) return;
-
-      const [h, m] = input.split(":").map(Number);
-      const wakeTime = new Date();
-      wakeTime.setHours(h, m, 0, 0);
-
-      const results = [];
-      for (let i = 6; i >= 1; i--) {
-        const d = new Date(wakeTime.getTime() - i * 90 * 60000);
-        results.push(formatTime(d));
-      }
-
-      document.getElementById("bedResults").innerHTML =
-        `<p>If you want to wake up at <strong>${formatTime(wakeTime)}</strong>, try falling asleep at one of these times:</p><ul class="list-disc ml-5 mt-2">${results.map(t => `<li>${t}</li>`).join('')}</ul>`;
-    }
-
-    function calculateWakeTimes() {
-      const input = document.getElementById("bedTime").value;
-      if (!input) return;
-
-      const [h, m] = input.split(":").map(Number);
-      const bedTime = new Date();
-      bedTime.setHours(h, m, 0, 0);
-
-      const results = [];
-      for (let i = 1; i <= 6; i++) {
-        const d = new Date(bedTime.getTime() + i * 90 * 60000);
-        results.push(formatTime(d));
-      }
-
-      document.getElementById("wakeResults").innerHTML =
-        `<p>If you go to bed at <strong>${formatTime(bedTime)}</strong>, try waking up at one of these times:</p><ul class="list-disc ml-5 mt-2">${results.map(t => `<li>${t}</li>`).join('')}</ul>`;
-    }
-
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
-</body>
-</html>
+  document.getElementById("wakeResults").innerHTML =
+    `<p>If you go to bed at <strong>${formatTime(bedTime)}</strong>, try waking up at one of these times:</p>
+     <ul class="list-disc ml-5 mt-2">
+      ${results.map(r => {
+        const isRecommended = r.time === recommended.time;
+        return `<li class="${isRecommended ? 'font-bold text-green-600' : ''}">
+                  ${r.time}${isRecommended ? ' ⭐ Recommended' : ''}
+                </li>`;
+      }).join('')}
+    </ul>`;
+}
