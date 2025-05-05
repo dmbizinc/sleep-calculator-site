@@ -7,7 +7,7 @@
   <meta name="description" content="Find the best time to sleep or wake up based on 90-minute sleep cycles." />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google AdSense -->
+  <!-- AdSense Placeholder -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
     crossorigin="anonymous"></script>
 
@@ -28,6 +28,11 @@
       text-align: center;
       width: 5rem;
       height: 3rem;
+    }
+
+    /* Auto-collapse result containers if empty */
+    #bedResults:empty, #wakeResults:empty {
+      display: none;
     }
   </style>
 </head>
@@ -61,7 +66,7 @@
         </select>
       </div>
       <button onclick="calculateBedTimes()" class="bg-custom-gold text-[#0B132B] py-2 px-4 rounded font-semibold hover:bg-custom-gold/90">Calculate</button>
-      <div id="bedResults" class="mt-2 text-white text-lg text-center"></div>
+      <div id="bedResults" class="mt-3 text-white text-lg text-center min-h-0"></div>
     </div>
 
     <!-- Sleep Tab -->
@@ -82,7 +87,7 @@
         </select>
       </div>
       <button onclick="calculateWakeTimes()" class="bg-custom-gold text-[#0B132B] py-2 px-4 rounded font-semibold hover:bg-custom-gold/90">Calculate</button>
-      <div id="wakeResults" class="mt-2 text-white text-lg text-center"></div>
+      <div id="wakeResults" class="mt-3 text-white text-lg text-center min-h-0"></div>
     </div>
 
     <!-- Ad placeholder -->
@@ -96,23 +101,22 @@
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <!-- Sleep Tips Section -->
+    <!-- Tips Section -->
     <div class="mt-6 text-center text-white max-w-xl">
       <h2 class="text-2xl font-bold text-custom-gold mb-4">Tips to Fall Asleep Faster</h2>
       <p class="mb-4">Having trouble falling asleep? Try these breathing techniques to calm your mind and body:</p>
-
       <div class="text-left bg-[#1C2541] p-4 rounded-lg space-y-4">
         <div>
           <h3 class="font-semibold text-custom-gold">🫁 4-7-8 Breathing</h3>
-          <p>Inhale through your nose for 4 seconds, hold for 7 seconds, exhale through your mouth for 8 seconds. Repeat 4 times.</p>
+          <p>Inhale for 4 seconds, hold for 7 seconds, exhale slowly for 8 seconds. Repeat 4 times.</p>
         </div>
         <div>
           <h3 class="font-semibold text-custom-gold">🌊 Box Breathing</h3>
-          <p>Inhale for 4 seconds, hold for 4 seconds, exhale for 4 seconds, hold again for 4 seconds. Repeat to reduce stress.</p>
+          <p>Inhale for 4, hold for 4, exhale for 4, and hold for 4. Repeat to reduce stress.</p>
         </div>
         <div>
           <h3 class="font-semibold text-custom-gold">💤 Mindful Breathing</h3>
-          <p>Close your eyes and focus on your breath. Breathe slowly and naturally while observing the rise and fall of your chest.</p>
+          <p>Close your eyes and focus gently on each breath. Let go of intrusive thoughts.</p>
         </div>
       </div>
     </div>
@@ -181,7 +185,7 @@
         `<div class="mb-2 text-base text-custom-gold">Bedtime</div>
          <p class="mb-4">The average human takes 15 minutes to fall asleep.<br>
          To wake up refreshed at <strong>${formatTime(wakeTime)}</strong>, go to sleep at one of the following times:</p>
-         <div class="flex flex-wrap justify-center">${generateTimeBoxes(results, recommended)}</div>`;
+         <div class="flex flex-wrap justify-center gap-2 -mt-2">${generateTimeBoxes(results, recommended)}</div>`;
     }
 
     function calculateWakeTimes() {
@@ -208,7 +212,7 @@
         `<div class="mb-2 text-base text-custom-gold">Wake Time</div>
          <p class="mb-4">The average human takes 15 minutes to fall asleep.<br>
          If you go to bed at <strong>${formatTime(bedTime)}</strong>, try waking up at one of the following times:</p>
-         <div class="flex flex-wrap justify-center">${generateTimeBoxes(results, recommended)}</div>`;
+         <div class="flex flex-wrap justify-center gap-2 -mt-2">${generateTimeBoxes(results, recommended)}</div>`;
     }
 
     document.getElementById("year").textContent = new Date().getFullYear();
