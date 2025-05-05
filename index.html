@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sleep Calculator</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
   <style>
     .text-custom-gold { color: #b2a995; }
     .border-custom-gold { border-color: #b2a995; }
@@ -18,8 +17,10 @@
       border-radius: 0.5rem;
       padding: 0.75rem;
       font-size: 1.25rem;
-      width: 10rem;
+      width: 5rem;
+      height: 3rem;
       appearance: none;
+      text-align: center;
     }
 
     #bedResults:empty, #wakeResults:empty {
@@ -28,7 +29,6 @@
   </style>
 </head>
 <body class="bg-[#0B132B] text-white font-sans min-h-screen flex flex-col items-center px-4 py-10 text-[115%]">
-
   <div class="max-w-xl w-full text-center">
     <h1 class="text-[2.75rem] font-bold text-custom-gold mb-3">Sleep Calculator</h1>
     <p class="text-lg mb-6">Calculate your ideal sleep or wake times based on natural sleep cycles.</p>
@@ -38,57 +38,31 @@
       <button id="sleepBtn" onclick="showTab('sleep')" class="border-custom-gold border px-4 py-2 rounded-md text-custom-gold">I want to fall asleep at</button>
     </div>
 
-    <!-- Wake Tab (using input type="time") -->
+    <!-- Wake Tab -->
     <div id="wakeTab" class="tab-content">
-      <div class="mb-4">
-        <label for="wakeTime" class="block text-custom-gold mb-2">Select wake-up time:</label>
-        <input type="time" id="wakeTime" class="scroll-picker text-white text-center" step="300">
+      <div class="flex justify-center items-center space-x-2 mb-4">
+        <select id="wheelHour" class="scroll-picker text-white text-center">
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
+          <option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+        </select>
+        <select id="wheelMinute" class="scroll-picker text-white text-center">
+          <option value="0">00</option><option value="5">05</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option>
+          <option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option>
+        </select>
+        <select id="wheelPeriod" class="scroll-picker text-white text-center">
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </select>
       </div>
       <button onclick="calculateBedTimes()" class="bg-custom-gold text-[#0B132B] py-2 px-4 rounded font-semibold hover:bg-custom-gold/90">Calculate</button>
       <div id="bedResults" class="mt-0 text-white text-lg text-center min-h-0"></div>
     </div>
 
-    <!-- Sleep Tab (unchanged for now) -->
+    <!-- Sleep Tab (optional upgrade later) -->
     <div id="sleepTab" class="tab-content hidden">
-      <div class="flex justify-center items-center space-x-2 mb-4 text-black">
-        <select id="bedHour" class="scroll-picker">
-          <option value="1">1</option><option value="2">2</option>...<option value="12">12</option>
-        </select>
-        <select id="bedMinute" class="scroll-picker">
-          <option value="0">00</option><option value="5">05</option>...<option value="55">55</option>
-        </select>
-        <select id="bedPeriod" class="scroll-picker">
-          <option value="AM">AM</option><option value="PM">PM</option>
-        </select>
-      </div>
-      <button onclick="calculateWakeTimes()" class="bg-custom-gold text-[#0B132B] py-2 px-4 rounded font-semibold hover:bg-custom-gold/90">Calculate</button>
-      <div id="wakeResults" class="mt-0 text-white text-lg text-center min-h-0"></div>
-    </div>
-
-    <!-- Tips Section -->
-    <div class="mt-6 text-center text-white max-w-xl">
-      <h2 class="text-2xl font-bold text-custom-gold mb-4">Tips to Fall Asleep Faster</h2>
-      <p class="mb-4">Having trouble falling asleep? Try these breathing techniques to calm your mind and body:</p>
-      <div class="text-left bg-[#1C2541] p-4 rounded-lg space-y-4">
-        <div>
-          <h3 class="font-semibold text-custom-gold">🫁 4-7-8 Breathing</h3>
-          <p>Inhale for 4 seconds, hold for 7 seconds, exhale slowly for 8 seconds. Repeat 4 times.</p>
-        </div>
-        <div>
-          <h3 class="font-semibold text-custom-gold">🌊 Box Breathing</h3>
-          <p>Inhale for 4, hold for 4, exhale for 4, and hold for 4. Repeat to reduce stress.</p>
-        </div>
-        <div>
-          <h3 class="font-semibold text-custom-gold">💤 Mindful Breathing</h3>
-          <p>Close your eyes and focus gently on each breath. Let go of intrusive thoughts.</p>
-        </div>
-      </div>
+      <p class="text-custom-gold">Sleep tab coming soon...</p>
     </div>
   </div>
-
-  <footer class="mt-16 text-xs text-gray-400 text-center">
-    &copy; <span id="year"></span> Sleep Calculator. All rights reserved.
-  </footer>
 
   <script>
     function showTab(tab) {
@@ -125,14 +99,10 @@
     }
 
     function calculateBedTimes() {
-      const timeValue = document.getElementById("wakeTime").value;
-      if (!timeValue) {
-        alert("Please select a wake-up time.");
-        return;
-      }
-      const [hourStr, minuteStr] = timeValue.split(":");
-      const h = parseInt(hourStr);
-      const minute = parseInt(minuteStr);
+      const hour = parseInt(document.getElementById("wheelHour").value);
+      const minute = parseInt(document.getElementById("wheelMinute").value);
+      const period = document.getElementById("wheelPeriod").value;
+      const h = period === "AM" ? hour % 12 : (hour % 12) + 12;
 
       const wakeTime = new Date();
       wakeTime.setHours(h, minute, 0, 0);
@@ -154,35 +124,6 @@
          To wake up refreshed at <strong>${formatTime(wakeTime)}</strong>, go to sleep at one of the following times:</p>
          <div class="flex flex-wrap justify-center gap-x-2 gap-y-1 -mt-2">${generateTimeBoxes(results, recommended)}</div>`;
     }
-
-    function calculateWakeTimes() {
-      const hour = parseInt(document.getElementById("bedHour").value);
-      const minute = parseInt(document.getElementById("bedMinute").value);
-      const period = document.getElementById("bedPeriod").value;
-      const h = period === "AM" ? hour % 12 : (hour % 12) + 12;
-
-      const bedTime = new Date();
-      bedTime.setHours(h, minute, 0, 0);
-
-      const results = [];
-      for (let i = 1; i <= 6; i++) {
-        const d = new Date(bedTime.getTime() + i * 90 * 60000 + 15 * 60000);
-        const diffMins = (d - bedTime) / 60000;
-        results.push({ time: formatTime(d), diffMins });
-      }
-
-      const recommended = results.reduce((prev, curr) =>
-        Math.abs(curr.diffMins - 420) < Math.abs(prev.diffMins - 420) ? curr : prev
-      );
-
-      document.getElementById("wakeResults").innerHTML =
-        `<div class="mb-2 text-base text-custom-gold">Wake Time</div>
-         <p class="mb-2">The average human takes 15 minutes to fall asleep.<br>
-         If you go to bed at <strong>${formatTime(bedTime)}</strong>, try waking up at one of the following times:</p>
-         <div class="flex flex-wrap justify-center gap-x-2 gap-y-1 -mt-2">${generateTimeBoxes(results, recommended)}</div>`;
-    }
-
-    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
