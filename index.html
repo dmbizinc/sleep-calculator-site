@@ -138,6 +138,80 @@
 
     const userLang = navigator.language.startsWith("es") ? "es" : "en";
     setLanguage(userLang);
-  </script>
+ <script>
+  function formatTime(date) {
+    let h = date.getHours();
+    let m = date.getMinutes();
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    m = m < 10 ? '0' + m : m;
+    return `${h}:${m} ${ampm}`;
+  }
+
+  function generateTimeBoxes(results, recommended) {
+    return results.map(r => {
+      const isRecommended = r.time === recommended.time;
+      return `<div class="bg-[#1C2541] text-xl px-4 py-3 rounded-md m-2 inline-block ${isRecommended ? 'border-2 border-custom-gold font-semibold' : ''}">
+                ${r.time}
+                ${isRecommended ? '<div class="text-xs text-custom-gold mt-1">SUGGESTED</div>' : ''}
+              </div>`;
+    }).join('');
+  }
+
+  function calculateBedTimes() {
+    const hour = parseInt(document.getElementById("wheelHour").value);
+    const minute = parseInt(document.getElementById("wheelMinute").value);
+    const period = document.getElementById("wheelPeriod").value;
+    const h = period === "AM" ? hour % 12 : (hour % 12) + 12;
+
+    const wakeTime = new Date();
+    wakeTime.setHours(h, minute, 0, 0);
+
+    const results = [];
+    for (let i = 6; i >= 1; i--) {
+      const d = new Date(wakeTime.getTime() - i * 90 * 60000 - 15 * 60000);
+      const diffMins = (wakeTime - d) / 60000;
+      results.push({ time: formatTime(d), diffMins });
+    }
+
+    const recommended = results.reduce((prev, curr) =>
+      Math.abs(curr.diffMins - 420) < Math.abs(prev.diffMins - 420) ? curr : prev
+    );
+
+    document.getElementById("bedResults").innerHTML =
+      `<div class="mb-2 text-base text-custom-gold">Bedtime</div>
+       <p class="mb-2">The average human takes 15 minutes to fall asleep.<br>
+       To wake up refreshed at <strong>${formatTime(wakeTime)}</strong>, go to sleep at one of the following times:</p>
+       <div class="flex flex-wrap justify-center gap-x-2 gap-y-1 -mt-2">${generateTimeBoxes(results, recommended)}</div>`;
+  }
+
+  function calculateWakeTimes() {
+    const hour = parseInt(document.getElementById("bedHour").value);
+    const minute = parseInt(document.getElementById("bedMinute").value);
+    const period = document.getElementById("bedPeriod").value;
+    const h = period === "AM" ? hour % 12 : (hour % 12) + 12;
+
+    const bedTime = new Date();
+    bedTime.setHours(h, minute, 0, 0);
+
+    const results = [];
+    for (let i = 1; i <= 6; i++) {
+      const d = new Date(bedTime.getTime() + i * 90 * 60000 + 15 * 60000);
+      const diffMins = (d - bedTime) / 60000;
+      results.push({ time: formatTime(d), diffMins });
+    }
+
+    const recommended = results.reduce((prev, curr) =>
+      Math.abs(curr.diffMins - 420) < Math.abs(prev.diffMins - 420) ? curr : prev
+    );
+
+    document.getElementById("wakeResults").innerHTML =
+      `<div class="mb-2 text-base text-custom-gold">Wake Time</div>
+       <p class="mb-2">The average human takes 15 minutes to fall asleep.<br>
+       If you go to bed at <strong>${formatTime(bedTime)}</strong>, try waking up at one of the following times:</p>
+       <div class="flex flex-wrap justify-center gap-x-2 gap-y-1 -mt-2">${generateTimeBoxes(results, recommended)}</div>`;
+  }
+</script>
+
 </body>
 </html>
