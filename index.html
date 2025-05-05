@@ -15,6 +15,20 @@
     .border-custom-gold { border-color: #b2a995; }
     .bg-custom-gold { background-color: #b2a995; }
     .hover\:bg-custom-gold:hover { background-color: #a09787; }
+
+    .scroll-picker {
+      background-color: #1C2541;
+      color: white;
+      padding: 12px;
+      border-radius: 0.5rem;
+      font-size: 1.25rem;
+      border: 1px solid #b2a995;
+      appearance: none;
+      text-align: center;
+      width: 5rem;
+      height: 3rem;
+      overflow: auto;
+    }
   </style>
 </head>
 <body class="bg-[#0B132B] text-white font-sans min-h-screen flex flex-col items-center px-4 py-10 text-[115%]">
@@ -31,14 +45,42 @@
 
     <!-- Wake Tab -->
     <div id="wakeTab" class="tab-content">
-      <input type="time" id="wakeTime" class="border w-full py-2 px-3 rounded mb-4 text-black" />
+      <div class="flex justify-center items-center space-x-2 mb-4 text-black">
+        <select id="wakeHour" class="scroll-picker">
+          ${[...Array(12)].map((_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('')}
+        </select>
+        <select id="wakeMinute" class="scroll-picker">
+          <option value="0">00</option>
+          <option value="15">15</option>
+          <option value="30">30</option>
+          <option value="45">45</option>
+        </select>
+        <select id="wakePeriod" class="scroll-picker">
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </select>
+      </div>
       <button onclick="calculateBedTimes()" class="bg-custom-gold text-[#0B132B] py-2 px-4 rounded font-semibold hover:bg-custom-gold/90">Calculate</button>
       <div id="bedResults" class="mt-6 text-white text-lg text-center"></div>
     </div>
 
     <!-- Sleep Tab -->
     <div id="sleepTab" class="tab-content hidden">
-      <input type="time" id="bedTime" class="border w-full py-2 px-3 rounded mb-4 text-black" />
+      <div class="flex justify-center items-center space-x-2 mb-4 text-black">
+        <select id="bedHour" class="scroll-picker">
+          ${[...Array(12)].map((_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('')}
+        </select>
+        <select id="bedMinute" class="scroll-picker">
+          <option value="0">00</option>
+          <option value="15">15</option>
+          <option value="30">30</option>
+          <option value="45">45</option>
+        </select>
+        <select id="bedPeriod" class="scroll-picker">
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </select>
+      </div>
       <button onclick="calculateWakeTimes()" class="bg-custom-gold text-[#0B132B] py-2 px-4 rounded font-semibold hover:bg-custom-gold/90">Calculate</button>
       <div id="wakeResults" class="mt-6 text-white text-lg text-center"></div>
     </div>
@@ -95,16 +137,17 @@
     }
 
     function calculateBedTimes() {
-      const input = document.getElementById("wakeTime").value;
-      if (!input) return;
+      const hour = parseInt(document.getElementById("wakeHour").value);
+      const minute = parseInt(document.getElementById("wakeMinute").value);
+      const period = document.getElementById("wakePeriod").value;
 
-      const [h, m] = input.split(":").map(Number);
+      const h = period === "AM" ? hour % 12 : (hour % 12) + 12;
       const wakeTime = new Date();
-      wakeTime.setHours(h, m, 0, 0);
+      wakeTime.setHours(h, minute, 0, 0);
 
       const results = [];
       for (let i = 6; i >= 1; i--) {
-        const d = new Date(wakeTime.getTime() - i * 90 * 60000 - 15 * 60000); // minus 15 min fall asleep
+        const d = new Date(wakeTime.getTime() - i * 90 * 60000 - 15 * 60000); // fall asleep time
         const diffMins = (wakeTime - d) / 60000;
         results.push({ time: formatTime(d), diffMins });
       }
@@ -121,16 +164,17 @@
     }
 
     function calculateWakeTimes() {
-      const input = document.getElementById("bedTime").value;
-      if (!input) return;
+      const hour = parseInt(document.getElementById("bedHour").value);
+      const minute = parseInt(document.getElementById("bedMinute").value);
+      const period = document.getElementById("bedPeriod").value;
 
-      const [h, m] = input.split(":").map(Number);
+      const h = period === "AM" ? hour % 12 : (hour % 12) + 12;
       const bedTime = new Date();
-      bedTime.setHours(h, m, 0, 0);
+      bedTime.setHours(h, minute, 0, 0);
 
       const results = [];
       for (let i = 1; i <= 6; i++) {
-        const d = new Date(bedTime.getTime() + i * 90 * 60000 + 15 * 60000); // plus 15 min fall asleep
+        const d = new Date(bedTime.getTime() + i * 90 * 60000 + 15 * 60000);
         const diffMins = (d - bedTime) / 60000;
         results.push({ time: formatTime(d), diffMins });
       }
