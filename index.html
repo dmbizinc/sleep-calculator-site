@@ -9,30 +9,37 @@
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
     crossorigin="anonymous"></script>
+
+  <style>
+    .text-custom-gold { color: #b2a995; }
+    .border-custom-gold { border-color: #b2a995; }
+    .bg-custom-gold { background-color: #b2a995; }
+    .hover\:bg-custom-gold:hover { background-color: #a09787; }
+  </style>
 </head>
-<body class="bg-[#0B132B] text-white font-sans min-h-screen flex flex-col items-center px-4 py-10">
+<body class="bg-[#0B132B] text-white font-sans min-h-screen flex flex-col items-center px-4 py-10 text-[115%]">
 
   <div class="max-w-xl w-full text-center">
-    <h1 class="text-4xl font-bold text-yellow-400 mb-3">Sleep Calculator</h1>
+    <h1 class="text-[2.75rem] font-bold text-custom-gold mb-3">Sleep Calculator</h1>
     <p class="text-lg mb-6 text-white">Calculate your ideal sleep or wake times based on natural sleep cycles.</p>
 
     <!-- Tabs -->
     <div class="flex justify-center space-x-4 mb-6">
-      <button id="wakeBtn" onclick="showTab('wake')" class="tab-button border px-4 py-2 rounded-md bg-yellow-400 text-[#0B132B] font-semibold">I want to wake up at</button>
-      <button id="sleepBtn" onclick="showTab('sleep')" class="tab-button border px-4 py-2 rounded-md text-yellow-400 border-yellow-400">I want to fall asleep at</button>
+      <button id="wakeBtn" onclick="showTab('wake')" class="tab-button border px-4 py-2 rounded-md bg-custom-gold text-[#0B132B] font-semibold">I want to wake up at</button>
+      <button id="sleepBtn" onclick="showTab('sleep')" class="tab-button border-custom-gold border px-4 py-2 rounded-md text-custom-gold">I want to fall asleep at</button>
     </div>
 
     <!-- Wake Tab -->
     <div id="wakeTab" class="tab-content">
       <input type="time" id="wakeTime" class="border w-full py-2 px-3 rounded mb-4 text-black" />
-      <button onclick="calculateBedTimes()" class="bg-yellow-400 text-[#0B132B] py-2 px-4 rounded font-semibold hover:bg-yellow-300">Calculate</button>
+      <button onclick="calculateBedTimes()" class="bg-custom-gold text-[#0B132B] py-2 px-4 rounded font-semibold hover:bg-custom-gold/90">Calculate</button>
       <div id="bedResults" class="mt-6 text-white text-lg text-center"></div>
     </div>
 
     <!-- Sleep Tab -->
     <div id="sleepTab" class="tab-content hidden">
       <input type="time" id="bedTime" class="border w-full py-2 px-3 rounded mb-4 text-black" />
-      <button onclick="calculateWakeTimes()" class="bg-yellow-400 text-[#0B132B] py-2 px-4 rounded font-semibold hover:bg-yellow-300">Calculate</button>
+      <button onclick="calculateWakeTimes()" class="bg-custom-gold text-[#0B132B] py-2 px-4 rounded font-semibold hover:bg-custom-gold/90">Calculate</button>
       <div id="wakeResults" class="mt-6 text-white text-lg text-center"></div>
     </div>
 
@@ -56,15 +63,15 @@
     function showTab(tab) {
       document.getElementById("wakeTab").classList.add("hidden");
       document.getElementById("sleepTab").classList.add("hidden");
-      document.getElementById("wakeBtn").classList.remove("bg-yellow-400", "text-[#0B132B]");
-      document.getElementById("sleepBtn").classList.remove("bg-yellow-400", "text-[#0B132B]");
+      document.getElementById("wakeBtn").classList.remove("bg-custom-gold", "text-[#0B132B]");
+      document.getElementById("sleepBtn").classList.remove("bg-custom-gold", "text-[#0B132B]");
 
       if (tab === "wake") {
         document.getElementById("wakeTab").classList.remove("hidden");
-        document.getElementById("wakeBtn").classList.add("bg-yellow-400", "text-[#0B132B]");
+        document.getElementById("wakeBtn").classList.add("bg-custom-gold", "text-[#0B132B]");
       } else {
         document.getElementById("sleepTab").classList.remove("hidden");
-        document.getElementById("sleepBtn").classList.add("bg-yellow-400", "text-[#0B132B]");
+        document.getElementById("sleepBtn").classList.add("bg-custom-gold", "text-[#0B132B]");
       }
     }
 
@@ -80,9 +87,9 @@
     function generateTimeBoxes(results, recommended) {
       return results.map(r => {
         const isRecommended = r.time === recommended.time;
-        return `<div class="bg-[#1C2541] text-xl px-4 py-3 rounded-md m-2 inline-block ${isRecommended ? 'border-2 border-yellow-400 font-semibold' : ''}">
+        return `<div class="bg-[#1C2541] text-xl px-4 py-3 rounded-md m-2 inline-block ${isRecommended ? 'border-2 border-custom-gold font-semibold' : ''}">
                   ${r.time}
-                  ${isRecommended ? '<div class="text-xs text-yellow-400 mt-1">SUGGESTED</div>' : ''}
+                  ${isRecommended ? '<div class="text-xs text-custom-gold mt-1">SUGGESTED</div>' : ''}
                 </div>`;
       }).join('');
     }
@@ -107,7 +114,7 @@
       );
 
       document.getElementById("bedResults").innerHTML =
-        `<div class="mb-2 text-base text-yellow-400">Bedtime</div>
+        `<div class="mb-2 text-base text-custom-gold">Bedtime</div>
          <p class="mb-4">The average human takes 15 minutes to fall asleep.<br>
          To wake up refreshed at <strong>${formatTime(wakeTime)}</strong>, you need to go to sleep at one of the following times:</p>
          <div class="flex flex-wrap justify-center">${generateTimeBoxes(results, recommended)}</div>`;
@@ -133,7 +140,7 @@
       );
 
       document.getElementById("wakeResults").innerHTML =
-        `<div class="mb-2 text-base text-yellow-400">Wake Time</div>
+        `<div class="mb-2 text-base text-custom-gold">Wake Time</div>
          <p class="mb-4">The average human takes 15 minutes to fall asleep.<br>
          If you go to bed at <strong>${formatTime(bedTime)}</strong>, try waking up at one of the following times:</p>
          <div class="flex flex-wrap justify-center">${generateTimeBoxes(results, recommended)}</div>`;
