@@ -7,34 +7,33 @@
   <meta name="description" content="Find the best time to sleep or wake up based on 90-minute sleep cycles." />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google AdSense placeholder -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
     crossorigin="anonymous"></script>
 </head>
-<body class="bg-white text-gray-900 font-sans flex flex-col items-center px-4 py-10 min-h-screen">
+<body class="bg-[#0B132B] text-white font-sans min-h-screen flex flex-col items-center px-4 py-10">
 
   <div class="max-w-xl w-full text-center">
-    <h1 class="text-3xl font-bold mb-2">Sleep Calculator</h1>
-    <p class="text-sm text-gray-600 mb-6">Calculate your ideal sleep or wake times based on natural sleep cycles.</p>
+    <h1 class="text-4xl font-bold text-yellow-400 mb-3">Sleep Calculator</h1>
+    <p class="text-lg mb-6 text-white">Calculate your ideal sleep or wake times based on natural sleep cycles.</p>
 
     <!-- Tabs -->
-    <div class="flex justify-center space-x-4 mb-4">
-      <button id="wakeBtn" onclick="showTab('wake')" class="tab-button border px-4 py-2 rounded-md bg-blue-600 text-white">I want to wake up at</button>
-      <button id="sleepBtn" onclick="showTab('sleep')" class="tab-button border px-4 py-2 rounded-md">I want to fall asleep at</button>
+    <div class="flex justify-center space-x-4 mb-6">
+      <button id="wakeBtn" onclick="showTab('wake')" class="tab-button border px-4 py-2 rounded-md bg-yellow-400 text-[#0B132B] font-semibold">I want to wake up at</button>
+      <button id="sleepBtn" onclick="showTab('sleep')" class="tab-button border px-4 py-2 rounded-md text-yellow-400 border-yellow-400">I want to fall asleep at</button>
     </div>
 
     <!-- Wake Tab -->
     <div id="wakeTab" class="tab-content">
-      <input type="time" id="wakeTime" class="border w-full py-2 px-3 rounded mb-4" />
-      <button onclick="calculateBedTimes()" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Calculate</button>
-      <div id="bedResults" class="mt-4 text-left text-sm text-gray-700"></div>
+      <input type="time" id="wakeTime" class="border w-full py-2 px-3 rounded mb-4 text-black" />
+      <button onclick="calculateBedTimes()" class="bg-yellow-400 text-[#0B132B] py-2 px-4 rounded font-semibold hover:bg-yellow-300">Calculate</button>
+      <div id="bedResults" class="mt-6 text-white text-lg text-center"></div>
     </div>
 
     <!-- Sleep Tab -->
     <div id="sleepTab" class="tab-content hidden">
-      <input type="time" id="bedTime" class="border w-full py-2 px-3 rounded mb-4" />
-      <button onclick="calculateWakeTimes()" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Calculate</button>
-      <div id="wakeResults" class="mt-4 text-left text-sm text-gray-700"></div>
+      <input type="time" id="bedTime" class="border w-full py-2 px-3 rounded mb-4 text-black" />
+      <button onclick="calculateWakeTimes()" class="bg-yellow-400 text-[#0B132B] py-2 px-4 rounded font-semibold hover:bg-yellow-300">Calculate</button>
+      <div id="wakeResults" class="mt-6 text-white text-lg text-center"></div>
     </div>
 
     <!-- Ad placeholder -->
@@ -49,28 +48,26 @@
     </div>
   </div>
 
-  <footer class="mt-16 text-xs text-gray-500 text-center">
+  <footer class="mt-16 text-xs text-gray-400 text-center">
     &copy; <span id="year"></span> Sleep Calculator. All rights reserved.
   </footer>
 
   <script>
-    // Tab Switching
     function showTab(tab) {
       document.getElementById("wakeTab").classList.add("hidden");
       document.getElementById("sleepTab").classList.add("hidden");
-      document.getElementById("wakeBtn").classList.remove("bg-blue-600", "text-white");
-      document.getElementById("sleepBtn").classList.remove("bg-blue-600", "text-white");
+      document.getElementById("wakeBtn").classList.remove("bg-yellow-400", "text-[#0B132B]");
+      document.getElementById("sleepBtn").classList.remove("bg-yellow-400", "text-[#0B132B]");
 
       if (tab === "wake") {
         document.getElementById("wakeTab").classList.remove("hidden");
-        document.getElementById("wakeBtn").classList.add("bg-blue-600", "text-white");
+        document.getElementById("wakeBtn").classList.add("bg-yellow-400", "text-[#0B132B]");
       } else {
         document.getElementById("sleepTab").classList.remove("hidden");
-        document.getElementById("sleepBtn").classList.add("bg-blue-600", "text-white");
+        document.getElementById("sleepBtn").classList.add("bg-yellow-400", "text-[#0B132B]");
       }
     }
 
-    // Time Formatter
     function formatTime(date) {
       let h = date.getHours();
       let m = date.getMinutes();
@@ -78,6 +75,16 @@
       h = h % 12 || 12;
       m = m < 10 ? '0' + m : m;
       return `${h}:${m} ${ampm}`;
+    }
+
+    function generateTimeBoxes(results, recommended) {
+      return results.map(r => {
+        const isRecommended = r.time === recommended.time;
+        return `<div class="bg-[#1C2541] text-xl px-4 py-3 rounded-md m-2 inline-block ${isRecommended ? 'border-2 border-yellow-400 font-semibold' : ''}">
+                  ${r.time}
+                  ${isRecommended ? '<div class="text-xs text-yellow-400 mt-1">SUGGESTED</div>' : ''}
+                </div>`;
+      }).join('');
     }
 
     function calculateBedTimes() {
@@ -90,7 +97,7 @@
 
       const results = [];
       for (let i = 6; i >= 1; i--) {
-        const d = new Date(wakeTime.getTime() - i * 90 * 60000);
+        const d = new Date(wakeTime.getTime() - i * 90 * 60000 - 15 * 60000); // minus 15 min fall asleep
         const diffMins = (wakeTime - d) / 60000;
         results.push({ time: formatTime(d), diffMins });
       }
@@ -100,15 +107,10 @@
       );
 
       document.getElementById("bedResults").innerHTML =
-        `<p>If you want to wake up at <strong>${formatTime(wakeTime)}</strong>, try falling asleep at one of these times:</p>
-         <ul class="list-disc ml-5 mt-2">
-          ${results.map(r => {
-            const isRecommended = r.time === recommended.time;
-            return `<li class="${isRecommended ? 'font-bold text-blue-600' : ''}">
-                      ${r.time}${isRecommended ? ' ⭐ Recommended' : ''}
-                    </li>`;
-          }).join('')}
-        </ul>`;
+        `<div class="mb-2 text-base text-yellow-400">Bedtime</div>
+         <p class="mb-4">The average human takes 15 minutes to fall asleep.<br>
+         To wake up refreshed at <strong>${formatTime(wakeTime)}</strong>, you need to go to sleep at one of the following times:</p>
+         <div class="flex flex-wrap justify-center">${generateTimeBoxes(results, recommended)}</div>`;
     }
 
     function calculateWakeTimes() {
@@ -121,7 +123,7 @@
 
       const results = [];
       for (let i = 1; i <= 6; i++) {
-        const d = new Date(bedTime.getTime() + i * 90 * 60000);
+        const d = new Date(bedTime.getTime() + i * 90 * 60000 + 15 * 60000); // plus 15 min fall asleep
         const diffMins = (d - bedTime) / 60000;
         results.push({ time: formatTime(d), diffMins });
       }
@@ -131,15 +133,10 @@
       );
 
       document.getElementById("wakeResults").innerHTML =
-        `<p>If you go to bed at <strong>${formatTime(bedTime)}</strong>, try waking up at one of these times:</p>
-         <ul class="list-disc ml-5 mt-2">
-          ${results.map(r => {
-            const isRecommended = r.time === recommended.time;
-            return `<li class="${isRecommended ? 'font-bold text-green-600' : ''}">
-                      ${r.time}${isRecommended ? ' ⭐ Recommended' : ''}
-                    </li>`;
-          }).join('')}
-        </ul>`;
+        `<div class="mb-2 text-base text-yellow-400">Wake Time</div>
+         <p class="mb-4">The average human takes 15 minutes to fall asleep.<br>
+         If you go to bed at <strong>${formatTime(bedTime)}</strong>, try waking up at one of the following times:</p>
+         <div class="flex flex-wrap justify-center">${generateTimeBoxes(results, recommended)}</div>`;
     }
 
     document.getElementById("year").textContent = new Date().getFullYear();
