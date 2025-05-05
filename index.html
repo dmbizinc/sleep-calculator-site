@@ -10,7 +10,6 @@
     .border-custom-gold { border-color: #b2a995; }
     .bg-custom-gold { background-color: #b2a995; }
     .hover\:bg-custom-gold:hover { background-color: #a09787; }
-
     .scroll-picker {
       background-color: #1C2541;
       border: 1px solid #b2a995;
@@ -22,13 +21,13 @@
       appearance: none;
       text-align: center;
     }
-
     #bedResults:empty, #wakeResults:empty {
       display: none;
     }
   </style>
 </head>
 <body class="bg-[#0B132B] text-white font-sans min-h-screen flex flex-col items-center px-4 py-10 text-[115%]">
+
   <div class="max-w-xl w-full text-center">
     <h1 id="main-title" class="text-[2.75rem] font-bold text-custom-gold mb-3">Sleep Calculator</h1>
     <p id="subtitle" class="text-lg mb-6">Calculate your ideal sleep or wake times based on natural sleep cycles.</p>
@@ -42,12 +41,10 @@
     <div id="wakeTab" class="tab-content">
       <div class="flex justify-center items-center space-x-2 mb-4">
         <select id="wheelHour" class="scroll-picker text-white text-center">
-          <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
-          <option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+          ${[...Array(12)].map((_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
         </select>
         <select id="wheelMinute" class="scroll-picker text-white text-center">
-          <option value="0">00</option><option value="5">05</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option>
-          <option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option>
+          ${[...Array(12)].map((_, i) => `<option value="${i*5}">${String(i*5).padStart(2, '0')}</option>`).join('')}
         </select>
         <select id="wheelPeriod" class="scroll-picker text-white text-center">
           <option value="AM">AM</option>
@@ -62,12 +59,10 @@
     <div id="sleepTab" class="tab-content hidden">
       <div class="flex justify-center items-center space-x-2 mb-4">
         <select id="bedHour" class="scroll-picker text-white text-center">
-          <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
-          <option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+          ${[...Array(12)].map((_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
         </select>
         <select id="bedMinute" class="scroll-picker text-white text-center">
-          <option value="0">00</option><option value="5">05</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option>
-          <option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option>
+          ${[...Array(12)].map((_, i) => `<option value="${i*5}">${String(i*5).padStart(2, '0')}</option>`).join('')}
         </select>
         <select id="bedPeriod" class="scroll-picker text-white text-center">
           <option value="AM">AM</option>
@@ -97,29 +92,31 @@
         tipsTitle: "Tips to Fall Asleep Faster",
         tipsIntro: "Having trouble falling asleep? Try these breathing techniques to calm your mind and body:",
         tips: [
-          { title: "\uD83E\uDEC1 4-7-8 Breathing", text: "Inhale for 4 seconds, hold for 7 seconds, exhale slowly for 8 seconds. Repeat 4 times." },
-          { title: "\uD83C\uDF0A Box Breathing", text: "Inhale for 4, hold for 4, exhale for 4, and hold for 4. Repeat to reduce stress." },
-          { title: "\uD83D\uDECC Mindful Breathing", text: "Close your eyes and focus gently on each breath. Let go of intrusive thoughts." }
+          { title: "🫁 4-7-8 Breathing", text: "Inhale for 4 seconds, hold for 7 seconds, exhale slowly for 8 seconds. Repeat 4 times." },
+          { title: "🌊 Box Breathing", text: "Inhale for 4, hold for 4, exhale for 4, and hold for 4. Repeat to reduce stress." },
+          { title: "💤 Mindful Breathing", text: "Close your eyes and focus gently on each breath. Let go of intrusive thoughts." }
         ]
       },
       es: {
-        title: "Calculadora de Sue\u00f1o",
-        subtitle: "Calcula tus horarios ideales de sue\u00f1o o despertar basados en ciclos naturales.",
+        title: "Calculadora de Sueño",
+        subtitle: "Calcula tus horarios ideales de sueño o despertar basados en ciclos naturales.",
         wakeButton: "Quiero despertarme a las",
         sleepButton: "Quiero dormir a las",
         calculate: "Calcular",
-        tipsTitle: "Consejos para Dormir M\u00e1s R\u00e1pido",
-        tipsIntro: "\u00bfTienes problemas para dormir? Prueba estas t\u00e9cnicas de respiraci\u00f3n para calmar la mente y el cuerpo:",
+        tipsTitle: "Consejos para Dormir Más Rápido",
+        tipsIntro: "¿Tienes problemas para dormir? Prueba estas técnicas de respiración para calmar la mente y el cuerpo:",
         tips: [
-          { title: "\uD83E\uDEC1 Respiraci\u00f3n 4-7-8", text: "Inhala 4 segundos, ret\u00e9n 7, exhala 8. Repite 4 veces." },
-          { title: "\uD83C\uDF0A Respiraci\u00f3n en Caja", text: "Inhala 4, ret\u00e9n 4, exhala 4, ret\u00e9n 4. Repite." },
-          { title: "\uD83D\uDECC Respiraci\u00f3n Consciente", text: "Cierra los ojos y conc\u00e9ntrate en tu respiraci\u00f3n. Libera pensamientos." }
+          { title: "🫁 Respiración 4-7-8", text: "Inhala 4 segundos, retén 7, exhala 8. Repite 4 veces." },
+          { title: "🌊 Respiración en Caja", text: "Inhala 4, retén 4, exhala 4, retén 4. Repite." },
+          { title: "💤 Respiración Consciente", text: "Cierra los ojos y concéntrate en tu respiración. Libera pensamientos." }
         ]
       }
     };
 
+    const userLang = navigator.language.startsWith("es") ? "es" : "en";
+
     function setLanguage(lang) {
-      const t = translations[lang] || translations.en;
+      const t = translations[lang];
       document.getElementById("main-title").textContent = t.title;
       document.getElementById("subtitle").textContent = t.subtitle;
       document.getElementById("wakeBtn").textContent = t.wakeButton;
@@ -128,90 +125,89 @@
       document.getElementById("sleepCalcBtn").textContent = t.calculate;
       document.getElementById("tips-title").textContent = t.tipsTitle;
       document.getElementById("tips-intro").textContent = t.tipsIntro;
-      
       const tipsContainer = document.getElementById("tips-container");
       tipsContainer.innerHTML = "";
       t.tips.forEach(tip => {
-        tipsContainer.innerHTML += `<div><h3 class='font-semibold text-custom-gold'>${tip.title}</h3><p>${tip.text}</p></div>`;
+        tipsContainer.innerHTML += `<div><h3 class="font-semibold text-custom-gold">${tip.title}</h3><p>${tip.text}</p></div>`;
       });
     }
 
-    const userLang = navigator.language.startsWith("es") ? "es" : "en";
+    function showTab(tab) {
+      document.getElementById("wakeTab").classList.add("hidden");
+      document.getElementById("sleepTab").classList.add("hidden");
+      document.getElementById("wakeBtn").classList.remove("bg-custom-gold", "text-[#0B132B]");
+      document.getElementById("sleepBtn").classList.remove("bg-custom-gold", "text-[#0B132B]");
+      if (tab === "wake") {
+        document.getElementById("wakeTab").classList.remove("hidden");
+        document.getElementById("wakeBtn").classList.add("bg-custom-gold", "text-[#0B132B]");
+      } else {
+        document.getElementById("sleepTab").classList.remove("hidden");
+        document.getElementById("sleepBtn").classList.add("bg-custom-gold", "text-[#0B132B]");
+      }
+    }
+
+    function formatTime(date) {
+      let h = date.getHours();
+      let m = date.getMinutes();
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12 || 12;
+      m = m < 10 ? '0' + m : m;
+      return `${h}:${m} ${ampm}`;
+    }
+
+    function generateTimeBoxes(results, recommended) {
+      return results.map(r => {
+        const isRecommended = r.time === recommended.time;
+        return `<div class="bg-[#1C2541] text-xl px-4 py-3 rounded-md m-2 inline-block ${isRecommended ? 'border-2 border-custom-gold font-semibold' : ''}">
+                  ${r.time}
+                  ${isRecommended ? '<div class="text-xs text-custom-gold mt-1">SUGGESTED</div>' : ''}
+                </div>`;
+      }).join('');
+    }
+
+    function calculateBedTimes() {
+      const hour = parseInt(document.getElementById("wheelHour").value);
+      const minute = parseInt(document.getElementById("wheelMinute").value);
+      const period = document.getElementById("wheelPeriod").value;
+      const h = period === "AM" ? hour % 12 : (hour % 12) + 12;
+      const wakeTime = new Date();
+      wakeTime.setHours(h, minute, 0, 0);
+      const results = [];
+      for (let i = 6; i >= 1; i--) {
+        const d = new Date(wakeTime.getTime() - i * 90 * 60000 - 15 * 60000);
+        results.push({ time: formatTime(d), diffMins: (wakeTime - d) / 60000 });
+      }
+      const recommended = results.reduce((prev, curr) =>
+        Math.abs(curr.diffMins - 420) < Math.abs(prev.diffMins - 420) ? curr : prev);
+      document.getElementById("bedResults").innerHTML =
+        `<div class="mb-2 text-base text-custom-gold">Bedtime</div>
+         <p class="mb-2">The average human takes 15 minutes to fall asleep.<br>
+         To wake up refreshed at <strong>${formatTime(wakeTime)}</strong>, go to sleep at one of the following times:</p>
+         <div class="flex flex-wrap justify-center gap-x-2 gap-y-1 -mt-2">${generateTimeBoxes(results, recommended)}</div>`;
+    }
+
+    function calculateWakeTimes() {
+      const hour = parseInt(document.getElementById("bedHour").value);
+      const minute = parseInt(document.getElementById("bedMinute").value);
+      const period = document.getElementById("bedPeriod").value;
+      const h = period === "AM" ? hour % 12 : (hour % 12) + 12;
+      const bedTime = new Date();
+      bedTime.setHours(h, minute, 0, 0);
+      const results = [];
+      for (let i = 1; i <= 6; i++) {
+        const d = new Date(bedTime.getTime() + i * 90 * 60000 + 15 * 60000);
+        results.push({ time: formatTime(d), diffMins: (d - bedTime) / 60000 });
+      }
+      const recommended = results.reduce((prev, curr) =>
+        Math.abs(curr.diffMins - 420) < Math.abs(prev.diffMins - 420) ? curr : prev);
+      document.getElementById("wakeResults").innerHTML =
+        `<div class="mb-2 text-base text-custom-gold">Wake Time</div>
+         <p class="mb-2">The average human takes 15 minutes to fall asleep.<br>
+         If you go to bed at <strong>${formatTime(bedTime)}</strong>, try waking up at one of the following times:</p>
+         <div class="flex flex-wrap justify-center gap-x-2 gap-y-1 -mt-2">${generateTimeBoxes(results, recommended)}</div>`;
+    }
+
     setLanguage(userLang);
- <script>
-  function formatTime(date) {
-    let h = date.getHours();
-    let m = date.getMinutes();
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    h = h % 12 || 12;
-    m = m < 10 ? '0' + m : m;
-    return `${h}:${m} ${ampm}`;
-  }
-
-  function generateTimeBoxes(results, recommended) {
-    return results.map(r => {
-      const isRecommended = r.time === recommended.time;
-      return `<div class="bg-[#1C2541] text-xl px-4 py-3 rounded-md m-2 inline-block ${isRecommended ? 'border-2 border-custom-gold font-semibold' : ''}">
-                ${r.time}
-                ${isRecommended ? '<div class="text-xs text-custom-gold mt-1">SUGGESTED</div>' : ''}
-              </div>`;
-    }).join('');
-  }
-
-  function calculateBedTimes() {
-    const hour = parseInt(document.getElementById("wheelHour").value);
-    const minute = parseInt(document.getElementById("wheelMinute").value);
-    const period = document.getElementById("wheelPeriod").value;
-    const h = period === "AM" ? hour % 12 : (hour % 12) + 12;
-
-    const wakeTime = new Date();
-    wakeTime.setHours(h, minute, 0, 0);
-
-    const results = [];
-    for (let i = 6; i >= 1; i--) {
-      const d = new Date(wakeTime.getTime() - i * 90 * 60000 - 15 * 60000);
-      const diffMins = (wakeTime - d) / 60000;
-      results.push({ time: formatTime(d), diffMins });
-    }
-
-    const recommended = results.reduce((prev, curr) =>
-      Math.abs(curr.diffMins - 420) < Math.abs(prev.diffMins - 420) ? curr : prev
-    );
-
-    document.getElementById("bedResults").innerHTML =
-      `<div class="mb-2 text-base text-custom-gold">Bedtime</div>
-       <p class="mb-2">The average human takes 15 minutes to fall asleep.<br>
-       To wake up refreshed at <strong>${formatTime(wakeTime)}</strong>, go to sleep at one of the following times:</p>
-       <div class="flex flex-wrap justify-center gap-x-2 gap-y-1 -mt-2">${generateTimeBoxes(results, recommended)}</div>`;
-  }
-
-  function calculateWakeTimes() {
-    const hour = parseInt(document.getElementById("bedHour").value);
-    const minute = parseInt(document.getElementById("bedMinute").value);
-    const period = document.getElementById("bedPeriod").value;
-    const h = period === "AM" ? hour % 12 : (hour % 12) + 12;
-
-    const bedTime = new Date();
-    bedTime.setHours(h, minute, 0, 0);
-
-    const results = [];
-    for (let i = 1; i <= 6; i++) {
-      const d = new Date(bedTime.getTime() + i * 90 * 60000 + 15 * 60000);
-      const diffMins = (d - bedTime) / 60000;
-      results.push({ time: formatTime(d), diffMins });
-    }
-
-    const recommended = results.reduce((prev, curr) =>
-      Math.abs(curr.diffMins - 420) < Math.abs(prev.diffMins - 420) ? curr : prev
-    );
-
-    document.getElementById("wakeResults").innerHTML =
-      `<div class="mb-2 text-base text-custom-gold">Wake Time</div>
-       <p class="mb-2">The average human takes 15 minutes to fall asleep.<br>
-       If you go to bed at <strong>${formatTime(bedTime)}</strong>, try waking up at one of the following times:</p>
-       <div class="flex flex-wrap justify-center gap-x-2 gap-y-1 -mt-2">${generateTimeBoxes(results, recommended)}</div>`;
-  }
-</script>
-
+  </script>
 </body>
 </html>
