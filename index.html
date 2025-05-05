@@ -41,10 +41,14 @@
     <div id="wakeTab" class="tab-content">
       <div class="flex justify-center items-center space-x-2 mb-4">
         <select id="wheelHour" class="scroll-picker text-white text-center">
-          ${[...Array(12)].map((_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+          <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
+          <option value="11">11</option><option value="12">12</option>
         </select>
         <select id="wheelMinute" class="scroll-picker text-white text-center">
-          ${[...Array(12)].map((_, i) => `<option value="${i*5}">${String(i*5).padStart(2, '0')}</option>`).join('')}
+          <option value="0">00</option><option value="5">05</option><option value="10">10</option><option value="15">15</option><option value="20">20</option>
+          <option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option>
+          <option value="50">50</option><option value="55">55</option>
         </select>
         <select id="wheelPeriod" class="scroll-picker text-white text-center">
           <option value="AM">AM</option>
@@ -59,10 +63,14 @@
     <div id="sleepTab" class="tab-content hidden">
       <div class="flex justify-center items-center space-x-2 mb-4">
         <select id="bedHour" class="scroll-picker text-white text-center">
-          ${[...Array(12)].map((_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+          <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
+          <option value="11">11</option><option value="12">12</option>
         </select>
         <select id="bedMinute" class="scroll-picker text-white text-center">
-          ${[...Array(12)].map((_, i) => `<option value="${i*5}">${String(i*5).padStart(2, '0')}</option>`).join('')}
+          <option value="0">00</option><option value="5">05</option><option value="10">10</option><option value="15">15</option><option value="20">20</option>
+          <option value="25">25</option><option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option>
+          <option value="50">50</option><option value="55">55</option>
         </select>
         <select id="bedPeriod" class="scroll-picker text-white text-center">
           <option value="AM">AM</option>
@@ -207,6 +215,7 @@
          <div class="flex flex-wrap justify-center gap-x-2 gap-y-1 -mt-2">${generateTimeBoxes(results, recommended)}</div>`;
     }
 
+    // Init
     setLanguage(userLang);
   </script>
 </body>
