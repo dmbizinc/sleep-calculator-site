@@ -7,7 +7,7 @@
   <meta name="description" content="Find the best time to sleep or wake up based on 90-minute sleep cycles." />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- AdSense placeholder -->
+  <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
     crossorigin="anonymous"></script>
 
@@ -28,7 +28,6 @@
       text-align: center;
       width: 5rem;
       height: 3rem;
-      overflow: auto;
     }
   </style>
 </head>
@@ -36,32 +35,29 @@
 
   <div class="max-w-xl w-full text-center">
     <h1 class="text-[2.75rem] font-bold text-custom-gold mb-3">Sleep Calculator</h1>
-    <p class="text-lg mb-6 text-white">Calculate your ideal sleep or wake times based on natural sleep cycles.</p>
+    <p class="text-lg mb-6">Calculate your ideal sleep or wake times based on natural sleep cycles.</p>
 
     <!-- Tabs -->
     <div class="flex justify-center space-x-4 mb-6">
-      <button id="wakeBtn" onclick="showTab('wake')" class="tab-button border px-4 py-2 rounded-md bg-custom-gold text-[#0B132B] font-semibold">I want to wake up at</button>
-      <button id="sleepBtn" onclick="showTab('sleep')" class="tab-button border-custom-gold border px-4 py-2 rounded-md text-custom-gold">I want to fall asleep at</button>
+      <button id="wakeBtn" onclick="showTab('wake')" class="border px-4 py-2 rounded-md bg-custom-gold text-[#0B132B] font-semibold">I want to wake up at</button>
+      <button id="sleepBtn" onclick="showTab('sleep')" class="border-custom-gold border px-4 py-2 rounded-md text-custom-gold">I want to fall asleep at</button>
     </div>
 
     <!-- Wake Tab -->
     <div id="wakeTab" class="tab-content">
       <div class="flex justify-center items-center space-x-2 mb-4 text-black">
         <select id="wakeHour" class="scroll-picker">
-          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
-          <option value="4">4</option><option value="5">5</option><option value="6">6</option>
-          <option value="7">7</option><option value="8">8</option><option value="9">9</option>
-          <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+          <option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
+          <option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
         </select>
         <select id="wakeMinute" class="scroll-picker">
-          <option value="0">00</option><option value="5">05</option><option value="10">10</option>
-          <option value="15">15</option><option value="20">20</option><option value="25">25</option>
-          <option value="30">30</option><option value="35">35</option><option value="40">40</option>
-          <option value="45">45</option><option value="50">50</option><option value="55">55</option>
+          <option value="0">00</option><option value="5">05</option><option value="10">10</option><option value="15">15</option>
+          <option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option>
+          <option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option>
         </select>
         <select id="wakePeriod" class="scroll-picker">
-          <option value="AM">AM</option>
-          <option value="PM">PM</option>
+          <option value="AM">AM</option><option value="PM">PM</option>
         </select>
       </div>
       <button onclick="calculateBedTimes()" class="bg-custom-gold text-[#0B132B] py-2 px-4 rounded font-semibold hover:bg-custom-gold/90">Calculate</button>
@@ -72,20 +68,17 @@
     <div id="sleepTab" class="tab-content hidden">
       <div class="flex justify-center items-center space-x-2 mb-4 text-black">
         <select id="bedHour" class="scroll-picker">
-          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
-          <option value="4">4</option><option value="5">5</option><option value="6">6</option>
-          <option value="7">7</option><option value="8">8</option><option value="9">9</option>
-          <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+          <option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
+          <option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
         </select>
         <select id="bedMinute" class="scroll-picker">
-          <option value="0">00</option><option value="5">05</option><option value="10">10</option>
-          <option value="15">15</option><option value="20">20</option><option value="25">25</option>
-          <option value="30">30</option><option value="35">35</option><option value="40">40</option>
-          <option value="45">45</option><option value="50">50</option><option value="55">55</option>
+          <option value="0">00</option><option value="5">05</option><option value="10">10</option><option value="15">15</option>
+          <option value="20">20</option><option value="25">25</option><option value="30">30</option><option value="35">35</option>
+          <option value="40">40</option><option value="45">45</option><option value="50">50</option><option value="55">55</option>
         </select>
         <select id="bedPeriod" class="scroll-picker">
-          <option value="AM">AM</option>
-          <option value="PM">PM</option>
+          <option value="AM">AM</option><option value="PM">PM</option>
         </select>
       </div>
       <button onclick="calculateWakeTimes()" class="bg-custom-gold text-[#0B132B] py-2 px-4 rounded font-semibold hover:bg-custom-gold/90">Calculate</button>
@@ -102,10 +95,31 @@
            data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
+
+    <!-- Sleep Tips Section -->
+    <div class="mt-16 text-center text-white max-w-xl">
+      <h2 class="text-2xl font-bold text-custom-gold mb-4">Tips to Fall Asleep Faster</h2>
+      <p class="mb-4">Having trouble falling asleep? Try these breathing techniques to calm your mind and body:</p>
+
+      <div class="text-left bg-[#1C2541] p-4 rounded-lg space-y-4">
+        <div>
+          <h3 class="font-semibold text-custom-gold">🫁 4-7-8 Breathing</h3>
+          <p>Inhale through your nose for 4 seconds, hold for 7 seconds, exhale through your mouth for 8 seconds. Repeat 4 times.</p>
+        </div>
+        <div>
+          <h3 class="font-semibold text-custom-gold">🌊 Box Breathing</h3>
+          <p>Inhale for 4 seconds, hold for 4 seconds, exhale for 4 seconds, hold again for 4 seconds. Repeat to reduce stress.</p>
+        </div>
+        <div>
+          <h3 class="font-semibold text-custom-gold">💤 Mindful Breathing</h3>
+          <p>Close your eyes and focus on your breath. Breathe slowly and naturally while observing the rise and fall of your chest.</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <footer class="mt-16 text-xs text-gray-400 text-center">
-    &copy; <span id="year"></span> Sleepy Calc. All rights reserved.
+    &copy; <span id="year"></span> Sleep Calculator. All rights reserved.
   </footer>
 
   <script>
