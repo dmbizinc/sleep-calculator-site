@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sleep Time Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google AdSense placeholder -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR-ADSENSE-ID"
+     crossorigin="anonymous"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col items-center px-4 py-8">
+
+  <header class="text-center mb-8">
+    <h1 class="text-3xl font-bold">Sleep Time Calculator</h1>
+    <p class="text-sm text-gray-600 mt-2">Find the best times to go to sleep or wake up based on your sleep cycles.</p>
+  </header>
+
+  <main class="w-full max-w-md space-y-8">
+
+    <!-- Sleep From Wake Time -->
+    <section class="bg-white shadow-md rounded-xl p-6">
+      <h2 class="text-xl font-semibold mb-4">If you want to wake up at:</h2>
+      <input type="time" id="wakeTime" class="w-full border px-4 py-2 rounded-md mb-4" />
+      <button onclick="calculateBedTimes()" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">Calculate Bedtimes</button>
+      <div id="bedResults" class="mt-4 text-sm text-gray-700"></div>
+    </section>
+
+    <!-- Wake From Sleep Time -->
+    <section class="bg-white shadow-md rounded-xl p-6">
+      <h2 class="text-xl font-semibold mb-4">If you go to bed at:</h2>
+      <input type="time" id="bedTime" class="w-full border px-4 py-2 rounded-md mb-4" />
+      <button onclick="calculateWakeTimes()" class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700">Calculate Wake Times</button>
+      <div id="wakeResults" class="mt-4 text-sm text-gray-700"></div>
+    </section>
+
+    <!-- Ad Section -->
+    <section class="mt-4">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-xxxxxxxxxxxxxxx"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </section>
+
+  </main>
+
+  <footer class="mt-16 text-xs text-gray-500 text-center">
+    &copy; <span id="year"></span> SleepTimeTool.com. All rights reserved.
+  </footer>
+
+  <script>
+    function formatTime(date) {
+      let h = date.getHours();
+      let m = date.getMinutes();
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12;
+      h = h ? h : 12;
+      m = m < 10 ? '0' + m : m;
+      return h + ':' + m + ' ' + ampm;
+    }
+
+    function calculateBedTimes() {
+      const timeStr = document.getElementById("wakeTime").value;
+      if (!timeStr) return;
+
+      const [h, m] = timeStr.split(":").map(Number);
+      const wakeDate = new Date();
+      wakeDate.setHours(h, m, 0, 0);
+
+      const results = [];
+      for (let i = 6; i >= 1; i--) {
+        const bedtime = new Date(wakeDate.getTime() - i * 90 * 60000);
+        results.push(formatTime(bedtime));
+      }
+
+      document.getElementById("bedResults").innerHTML = `<p>Try going to bed at:</p><ul class="list-disc ml-6 mt-2">${results.map(t => `<li>${t}</li>`).join('')}</ul>`;
+    }
+
+    function calculateWakeTimes() {
+      const timeStr = document.getElementById("bedTime").value;
+      if (!timeStr) return;
+
+      const [h, m] = timeStr.split(":").map(Number);
+      const bedDate = new Date();
+      bedDate.setHours(h, m, 0, 0);
+
+      const results = [];
+      for (let i = 1; i <= 6; i++) {
+        const wakeTime = new Date(bedDate.getTime() + i * 90 * 60000);
+        results.push(formatTime(wakeTime));
+      }
+
+      document.getElementById("wakeResults").innerHTML = `<p>Try waking up at:</p><ul class="list-disc ml-6 mt-2">${results.map(t => `<li>${t}</li>`).join('')}</ul>`;
+    }
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
