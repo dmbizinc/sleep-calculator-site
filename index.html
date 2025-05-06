@@ -191,8 +191,8 @@
         Math.abs(curr.diffMins - 420) < Math.abs(prev.diffMins - 420) ? curr : prev);
       document.getElementById("bedResults").innerHTML =
         `<div class="mb-2 text-base text-custom-gold">Bedtime</div>
-         <p class="mb-2">The average human takes 15 minutes to fall asleep.<br>
-         To wake up refreshed at <strong>${formatTime(wakeTime)}</strong>, go to sleep at one of the following times:</p>
+         <p class="mb-2">The average person takes 15 minutes to fall asleep.<br>
+         To wake up refreshed at <strong>${formatTime(wakeTime)}</strong>, go to bed at one of the following times:</p>
          <div class="flex flex-wrap justify-center gap-x-2 gap-y-1 -mt-2">${generateTimeBoxes(results, recommended)}</div>`;
     }
 
@@ -212,7 +212,7 @@
         Math.abs(curr.diffMins - 420) < Math.abs(prev.diffMins - 420) ? curr : prev);
       document.getElementById("wakeResults").innerHTML =
         `<div class="mb-2 text-base text-custom-gold">Wake Time</div>
-         <p class="mb-2">The average human takes 15 minutes to fall asleep.<br>
+         <p class="mb-2">The average person takes 15 minutes to fall asleep.<br>
          If you go to bed at <strong>${formatTime(bedTime)}</strong>, try waking up at one of the following times:</p>
          <div class="flex flex-wrap justify-center gap-x-2 gap-y-1 -mt-2">${generateTimeBoxes(results, recommended)}</div>`;
     }
